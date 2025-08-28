@@ -1,11 +1,24 @@
 # mirareco
-AIを活用した終活Webアプリ「ミラレコ」
+AIを活用した「もしもの時」に備えたWebアプリ「ミラレコ」
 # 📘 ミラレコ プロジェクト共通前提（マスタードキュメント）
+
+# ミラレコ (Mirareco)
+
+未来 + 記録（レコード） = ミラレコ  
+終活を含めた「もしもの時」に備えた「未来に繋ぐ記録」として残し、本人・家族・パートナー・友人が共に体験できるアプリ。
+
+---
+
+## 🚀 公開URL
+- 本番: [https://mirareco.net](https://mirareco.net)
+- Preview: [https://mirareco.vercel.app](https://mirareco.vercel.app)
+
+---
 
 ## プロジェクト概要
 - **アプリ名**：ミラレコ（未来＋記録）  
 - **対象ユーザー**：  
-  高齢者本人とその家族・パートナー・友人  
+  高齢者を中心とした本人とその家族・パートナー・友人  
 - **目的**：  
   - 開発初心者がアプリ開発の全体像を把握する  
   - AIを活用したシステム開発スキルとAIリテラシーを習得する  
@@ -22,8 +35,9 @@ AIを活用した終活Webアプリ「ミラレコ」
 
 - **UI/UX**  
   - モバイルファースト  
-  - UIはシンプルで見やすく  
-  - UXは本人・家族・パートナー・友人が共に参加できる終活体験  
+  - UIはシンプルで見やすく
+  - 画面下部に固定メニュー  
+  - UXは本人・家族・パートナー・友人が共に参加できる終活だけではない新しい体験  
 
 - **アプリ形態**  
   - Webアプリとしてスタート  
@@ -32,10 +46,11 @@ AIを活用した終活Webアプリ「ミラレコ」
 ---
 
 ## 技術スタック
-- **フロントエンド**：Next.js  
-- **バックエンド**：FastAPI（Python）  
-- **データベース**：Supabase / PostgreSQL  
-- **インフラ**：将来的にAWS移行を想定  
+- フロントエンド: Next.js
+- バックエンド: FastAPI (予定)
+- DB: Supabase (PostgreSQL)
+- インフラ: Vercel (将来的にAWS移行も視野)
+- ドメイン: `mirareco.net`
 
 ---
 
@@ -66,8 +81,39 @@ AIを活用した終活Webアプリ「ミラレコ」
 - **進捗管理時**：開発方針に照らしてタスクの優先度を確認  
 - **学習チャットやプロンプト練習時**：AIの役割を確認して活用  
 
-## ドメイン
-- 取得済み：mirareco.net
-- 今後の利用方針：
-  - 本番環境のフロントエンド（Next.js）は Vercel にデプロイし、このドメインを設定する予定
-  - API（FastAPI）は AWS または Supabase Functions にホストし、サブドメイン api.mirareco.net を割り当て予定
+---
+
+## 📂 リポジトリ構成
+```
+mirareco/
+├─ docs/               # 仕様書・マスタードキュメント
+│   └─ mvp-memo-spec.md
+├─ frontend/           # Next.js アプリ本体
+└─ README.md           # このファイル
+```
+
+---
+
+## 🛠 セットアップ手順
+```bash
+git clone https://github.com/linkist0622/mirareco.git
+cd mirareco/frontend
+npm install
+npm run dev
+```
+→ ブラウザで http://localhost:3000 を開く
+
+---
+
+## ✅ ロードマップ / TODO
+- [x] Vercel デプロイ & 独自ドメイン設定
+- [x] README.md 整備
+- [ ] Supabase 接続（notes テーブル一覧表示）
+- [ ] FastAPI バックエンドAPI 実装
+- [ ] 認証（Supabase Auth）
+- [ ] ハイブリッドアプリ化（iOS/Android）
+
+---
+
+## 🏗 アーキテクチャ
+![Architecture](./docs/architecture-diagram.png)
