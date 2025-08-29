@@ -77,15 +77,15 @@ AIを活用した「もしもの時」に備える Webアプリ「ミラレコ�
 - 進捗管理チャット：日誌形式で進捗を記録し、タスクを整理
 - プロンプト学習チャット：プロンプトの練習・改善アドバイス
 
-<details>
-<summary>📑 活用の仕方（クリックで展開）</summary>
+---
+
+##📑 活用の仕方（クリックで展開）
 
 - 新しいチャットを作るとき：冒頭にこの概要を貼ると文脈が途切れない  
 - 設計や実装で迷ったとき：開発方針や技術スタックを確認  
 - ドキュメント作成時：README.md や Notion に貼り付け、最新版を維持  
 - 進捗管理時：開発方針に照らしてタスクの優先度を確認  
-- 学習チャットやプロンプト練習時：AIの役割を確認して活用  
-</details>
+- 学習チャットやプロンプト練習時：AIの役割を確認して活用      
 
 ---
 
@@ -120,34 +120,29 @@ AIを活用した「もしもの時」に備える Webアプリ「ミラレコ�
 ---
 
 ## 📂 リポジトリ構成（どこに何を置くか）
+```
 mirareco/
-├─ docs/ # 仕様・設計・議事録など
-│ └─ mvp-memo-spec.md
-├─ frontend/ # Next.js (アプリ本体)
-│ ├─ app/ # App Router（ページ/レイアウト）
-│ │ ├─ layout.tsx # 全体レイアウト（メタ/遷移アニメ適用）
-│ │ ├─ page.tsx # トップ = ランディングページ
-│ │ ├─ login/
-│ │ │ └─ page.tsx # ログイン（後でSupabase Auth接続）
-│ │ └─ signup/
-│ │ └─ page.tsx # 新規登録（後でSupabase Auth接続）
-│ ├─ components/ # 再利用UI
-│ │ └─ ClientTransition.tsx # Framer Motionでページ遷移アニメ
-│ ├─ lib/ # APIクライアント/ユーティリティ
-│ │ └─ supabaseClient.ts # Supabase接続（後で追加）
-│ ├─ public/ # 画像や静的ファイル
-│ ├─ styles/ (または app/globals.css) # グローバルCSS/Tailwind
-│ ├─ package.json
-│ └─ next.config.ts
-├─ README.md # このファイル
-└─ (将来) backend/ # FastAPI（Python）を追加予定
-
-
-> 初心者メモ  
-> - **app/** = 画面（URL）を作る場所。  
-> - **components/** = パーツの置き場。画面間で使い回す。  
-> - **lib/** = 外部サービス接続や共通ロジック。  
-> - **public/** = 画像やアイコンなど。  
+├─ docs/                               # 仕様・設計・議事録など
+│  └─ mvp-memo-spec.md
+├─ frontend/                           # Next.js (アプリ本体)
+│  ├─ app/                             # App Router（ページ/レイアウト）
+│  │  ├─ layout.tsx                    # 全体レイアウト（メタ/遷移アニメ適用）
+│  │  ├─ page.tsx                      # トップ = ランディングページ
+│  │  ├─ login/
+│  │  │  └─ page.tsx                   # ログイン（後でSupabase Auth接続）
+│  │  └─ signup/
+│  │     └─ page.tsx                   # 新規登録（後でSupabase Auth接続）
+│  ├─ components/                      # 再利用UI
+│  │  └─ ClientTransition.tsx          # Framer Motionでページ遷移アニメ
+│  ├─ lib/                             # APIクライアント/ユーティリティ
+│  │  └─ supabaseClient.ts             # Supabase接続（後で追加）
+│  ├─ public/                          # 画像や静的ファイル
+│  ├─ styles/ (または app/globals.css) # グローバルCSS/Tailwind
+│  ├─ package.json
+│  └─ next.config.ts
+├─ README.md                           # このファイル
+└─ (将来) backend/                     # FastAPI（Python）を追加予定
+```
 
 ---
 
@@ -155,7 +150,7 @@ mirareco/
 
 ### 1) 取得〜起動（ローカル）
 ```bash
-# 取得
+# プロジェクト取得
 git clone https://github.com/linkist0622/mirareco.git
 cd mirareco/frontend
 
@@ -164,6 +159,34 @@ npm install
 
 # 開発サーバー起動（http://localhost:3000）
 npm run dev
+```
+
+### 2) 必要ライブラリ（ランディングページ用アニメーション）
+```bash
+# Framer Motion（ページ遷移アニメ）
+npm i framer-motion
+```
+
+### 3) 環境変数（Supabaseを使う場合）
+- ローカル：`frontend/.env.local` を作成
+```bash
+NEXT_PUBLIC_SUPABASE_URL=（SupabaseのProject URL）
+NEXT_PUBLIC_SUPABASE_ANON_KEY=（anon key）
+```
+- Vercel（本番）：Project → Settings → Environment Variables に同名で追加  
+  追加後、**Redeploy** で反映。
+
+### 4) よく使うスクリプト（package.json）
+```bash
+npm run dev        # 開発サーバー
+npm run build      # 本番ビルド
+npm start          # ビルド済みを起動（ローカル確認）
+npm run lint       # コードチェック
+```
+
+### 5) デプロイ（Vercel）
+- `main` ブランチへ **git push** すると、Vercelが自動ビルド＆本番反映。  
+- 公開URL：`https://mirareco.net`
 
 ---
 
@@ -182,6 +205,76 @@ npm run dev
 
 ---
 
+## 🛠 開発フロー（Step by Step）
+
+> 目的：常に“動くプロトタイプ”を維持しながら、MVP → 拡張へ段階的に進める
+
+### Step 1. ランディングページ構築（/）
+- やること：
+  - `app/page.tsx` を作成し、公開LPを実装
+  - `components/marketing/`（Header / Hero / Features / Steps / Trust / CTA / Footer）へ分離
+  - `metadata` で SEO/OGP、`aria-*` でアクセシビリティ対応
+- 完了条件：
+  - スマホでの読みやすさ・CTA導線を確認（ヘッダー/ヒーロー/フッターの3点）
+  - Vercelにデプロイし、表示確認ができる
+
+### Step 2. アプリ本体のスケルトン（/app）
+- やること：
+  - 5大メニュー（思い出 / 保管庫 / もしもの時 / 未来に届ける / つながり）を `/app` 配下に用意
+  - 下部固定ナビ（タブUI）で遷移可能に
+- 完了条件：
+  - 各メニューへ遷移・戻るが可能（中身は空でもOK）
+  - モバイル片手操作で違和感がない
+
+### Step 3. Supabase接続 & DB設計
+- やること：
+  - Supabase プロジェクト作成、`NEXT_PUBLIC_SUPABASE_URL` / `ANON_KEY` 設定
+  - テーブル：`profiles`, `memories`, `locker_items`, `future_msgs`, `links`
+  - **RLS**（Row Level Security）ポリシー設定（本人のみ閲覧/編集、共有権限は最小限）
+- 完了条件：
+  - ログインユーザーで自分のレコードだけ読める／他人のは読めない
+  - 1件のレコードCRUDが通る
+
+### Step 4. MVP要件の実装
+- やること（無料枠）：
+  - 思い出1件、緊急連絡先1件、未来メッセ1通、招待1人の上限制御
+- やること（家族・パートナーパス）：
+  - 招待無制限、見守り通知（未ログイン○日で通知）、共同編集
+- 完了条件：
+  - 受け入れ基準を `docs/mvp-memo-spec.md` と **progress-log** にチェック
+  - RLSと権限テンプレ（閲覧/編集/緊急アクセス）が基本動作
+
+### Step 5. 課金モデル実装
+- やること：
+  - 家族・パートナーパス（サブスク）、ストレージ追加（容量課金）
+  - プレミアム：AI文章支援/要約/演出（トグルで段階導入）
+  - 料金・制約を `docs/pricing-and-partners.md` に明文化
+- 完了条件：
+  - UI上にロック表示とアップグレード導線、課金状態による機能切り替え
+
+### Step 6. 外部連携（拡張フェーズ）
+- やること：
+  - 士業・保険・葬儀社・自治体との連携ポイントを設計
+  - 相談導線（もしもの時→専門家相談）/ 行政・士業アカウントの追加
+- 完了条件：
+  - 1連携のPoC（モックでも可）と、改善点メモ
+
+### Step 7. ハイブリッド化（iOS/Android）
+- やること：
+  - Next.js +（Capacitor / Expo）でラップし、通知や共有シート等を検証
+- 完了条件：
+  - デバイス実機でLP〜/app 遷移が快適、主要フローが動く
+
+---
+
+### 運用ルール（短文メモ）
+- **常に動く**：大きな変更は小さく分割して早くマージ
+- **1ファイル1責務**：LP用UIは `components/marketing/` に集約
+- **権限は最小**：RLSと共有権限は“デフォルト最小、必要に応じて開く”
+- **記録する**：マイルストーンごとに `progress-log.md` を更新
+
+---
+
 ## 🗺️ ロードマップ
 - [x] Vercelデプロイ & 独自ドメイン設定  
 - [x] README整備  
@@ -197,4 +290,3 @@ npm run dev
 - **JWT**：ログイントークンの仕組み  
 - **OGP**：SNS共有時に出るサムネイル情報  
 - **CTA**：Call To Action（行動を促すボタンや導線）
-    
