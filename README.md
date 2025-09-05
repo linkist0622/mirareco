@@ -59,6 +59,50 @@ AIを活用した「もしもの時」に備える Webアプリ「ミラレコ�
 
 ---
 
+## 🎨 ランディングページ仕様（MVP決定版）
+
+### 情報設計（セクション順）
+1. Hero（大見出し・説明・主/従CTA）
+2. Features（3カード：完結性／もしもの時／未来メッセ）
+3. How to Start（4ステップ）
+4. Security / Trust（3項目：RLS／暗号化／緊急時ガード）
+5. Pricing（無料／家族・パートナーパス／ストレージ）
+6. FAQ（3問）
+7. CTA（再掲）
+
+> 参考：セクションの並びと視線誘導は「みんなの銀行」LPのリズムを参考（構成のみ、内容は独自）。  
+> https://www.minna-no-ginko.com/
+
+### タイポグラフィ & 余白（Tailwind目安）
+- H1: `text-4xl sm:text-5xl md:text-6xl font-semibold leading-tight tracking-tight`
+- H2: `text-2xl sm:text-3xl font-semibold tracking-tight`
+- 本文: `text-base sm:text-lg text-neutral-600`
+- 小見出し/注釈: `text-sm text-neutral-500`
+- カード: `rounded-2xl border border-neutral-200 p-6`
+- セクション間: `py-14 sm:py-16`／セクション区切り: `border-t border-neutral-200`
+
+### アクセシビリティ
+- 文字サイズとコントラストの初期設定は Onboarding で選択
+- ボタンは最低44pxのタップ領域／フォーカスリング有効
+- 緊急機能は**二段階確認**（誤タップ防止）
+
+### 実装ファイル（Next.js App Router）
+- `app/page.tsx` … LP本体（Canvas納品コードを使用）
+- `app/layout.tsx` … `metadata`（SEO/OGP）
+- `public/` … `hero-app.png`, `feat-*.png`, `logo.svg`, `ogp.png`
+
+### 受け入れ基準（LP）
+- スマホ幅でヒーローが1スクロール内に収まる
+- CLS（初回読み込み）で見出し・ボタンがズレない（画像は`width/height`指定）
+- セクション見出しがスクロールで**一定ピッチ**に現れ、CTAまで迷いなく到達
+- Lighthouse モバイルで Performance/Accessibility/Best Practices/SEO いずれも 90+ を目標
+
+### 注意（リスペクト・リーガル）
+- 構成・余白・タイポの“バランス”は参考にするが、文言・画像・図版は**オリジナル**を使用
+- 商標・ロゴ・固有ビジュアルの模倣は禁止
+
+---
+
 ## 🤖 AI（ChatGPT）の役割
 - 設計サポート  
 - 実装支援（コード例＋初心者向けメモ解説）  
